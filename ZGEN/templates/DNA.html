@@ -1,0 +1,208 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    DNA
+{% endblock %}
+
+{% block main %}
+    <body>
+{% if not DNAsequence %}
+        <fieldset>
+        <form action="/DNA" enctype="multipart/form-data" method="post">
+
+    <div class="jumbotron">
+      <h1>Select Text File containing DNA nucleotides information:</h1>
+      <input type="file" name="DNAfile">
+      </div>
+
+    <div class="jumbotron">
+        <h1>Alternatively, you can copy and paste DNA nucleotides into the Text Area below:</h1>
+      <textArea placeholder="Enter DNA sequence here" name="DNAtext"></textArea>
+  </div>
+  <div class="jumbotron">
+        <h1>Select nucleotide data to analyze</h1>
+    <div>
+      <input type="checkbox" name="counts" value="1">
+    <label>Nucleotide Count</label>
+</div>
+<div>
+  <input type="checkbox" name="percentages" value="1">
+<label>Nucleotide Percentage</label>
+</div>
+</div>
+
+<div class="jumbotron">
+      <h1>Transcribe DNA into Other Genomic Data</h1>
+  <div>
+    <input type="checkbox" name="transcribeRNA" value="1">
+  <label>Transcribe into RNA</label>
+</div>
+<div>
+  <input type="checkbox" name="transcribeprotein" value="1">
+<label>Transcribe into Protein</label>
+</div>
+</div>
+
+<div class="jumbotron">
+      <h1>Obtain Complementary Strands</h1>
+  <div>
+    <input type="checkbox" name="cDNA" value="1">
+  <label>DNA Complementary Strand</label>
+</div>
+<div>
+  <input type="checkbox" name="rDNA" value="1">
+<label>Reverse DNA Complementary Strand</label>
+</div>
+<div>
+  <input type="checkbox" name="cRNA" value="1">
+<label>RNA Complementary Strand</label>
+</div>
+<div>
+  <input type="checkbox" name="rRNA" value="1">
+<label>Reverse RNA Complementary Strand</label>
+</div>
+</div>
+
+<div class="jumbotron">
+      <h1>Search for positions of DNA nucleotide motifs</h1>
+    <input type="text" name="motifs" placeholder="Type in nucleotide sequence of interest">
+</div>
+
+
+<div class="jumbotron">
+    <h1>Make sure all the DNA data you want has been checked</h1>
+<button type = "submit">Analyze DNA data</button>
+</div>
+  </fieldset>
+  {% endif %}
+
+  {% if DNAsequence %}
+  <div class="jumbotron">
+          <h1>Your DNA sequence:</h1>
+        <textArea name="DNAtext">{{ DNAsequence }}</textArea>
+  </div>
+  {% endif %}
+
+{% if ac %}
+<div class="jumbotron">
+  <table class="table table-striped" style="width:100%">
+ <thead>
+     <tr>
+         <th>Adenosine Count</th>
+         <th>Guanine Count</th>
+         <th>Cytosine Count</th>
+         <th>Thymine Count</th>
+         <th>TOTAL</th>
+     </tr>
+ </thead>
+ <tbody>
+     <tr>
+         <td>{{ ac }}</td>
+         <td>{{ gc }}</td>
+         <td>{{ cc }}</td>
+         <td>{{ tc }}</td>
+         <td>{{ total }}</td>
+
+     </tr>
+</tbody>
+</table>
+</div>
+{% endif %}
+
+{% if ap %}
+<div class="jumbotron">
+<table class="table table-striped" style="width:100%">
+<thead>
+<tr>
+    <th>Adenosine Percentage</th>
+    <th>Guanine Percentage</th>
+    <th>Cytosine Percentage</th>
+    <th>Thymine Percentage</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+    <td>{{ ap }}</td>
+    <td>{{ gp }}</td>
+    <td>{{ cp }}</td>
+    <td>{{ tp }}</td>
+</tr>
+</tbody>
+</table>
+</div>
+{% endif %}
+
+{% if RNAsequence %}
+<div class="jumbotron">
+        <h1>Your RNA sequence:</h1>
+      <textArea name="DNAtext">{{ RNAsequence }}</textArea>
+</div>
+{% endif %}
+
+{% if proteinsequence %}
+<div class="jumbotron">
+        <h1>Your Protein sequence:</h1>
+      <textArea name="DNAtext">{{ proteinsequence }}</textArea>
+</div>
+{% endif %}
+
+{% if complementaryDNA %}
+<div class="jumbotron">
+        <h1>Your complementary DNA strand:</h1>
+      <textArea name="DNAtext">{{ complementaryDNA }}</textArea>
+</div>
+{% endif %}
+
+{% if rcomplementaryDNA %}
+<div class="jumbotron">
+        <h1>Your reverse complementary DNA strand:</h1>
+      <textArea name="DNAtext">{{ rcomplementaryDNA }}</textArea>
+</div>
+{% endif %}
+
+{% if complementaryRNA %}
+<div class="jumbotron">
+        <h1>Your complementary RNA strand:</h1>
+      <textArea name="DNAtext">{{ complementaryRNA }}</textArea>
+</div>
+{% endif %}
+
+{% if rcomplementaryRNA %}
+<div class="jumbotron">
+        <h1>Your reverse complementary RNA strand:</h1>
+      <textArea name="DNAtext">{{ rcomplementaryRNA }}</textArea>
+</div>
+{% endif %}
+
+{% if motifsequence %}
+<div class="jumbotron">
+<table class="table table-striped" style="width:100%">
+<thead>
+<tr>
+    <th>Your nucleotide sequence of interest: </th>
+    <th>{{ motifsequence }}</th>
+</tr>
+<tr>
+    <th>TOTAL motif occurences: </th>
+    <th>{{ motifs|length }}</th>
+</tr>
+{% if motifs|length > 0 %}
+<tr>
+    <th>Positions of motif occurences: </th>
+</tr>
+{% endif %}
+</thead>
+<tbody>
+{% for index in motifs %}
+<tr>
+    <td>Occurence {{ index.count }}</td>
+    <td>{{ index.indices }}</td>
+</tr>
+{% endfor %}
+</tbody>
+</table>
+</div>
+{% endif %}
+
+    </body>
+{% endblock %}

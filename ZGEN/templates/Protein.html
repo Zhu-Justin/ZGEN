@@ -1,0 +1,557 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Protein
+{% endblock %}
+
+{% block main %}
+    <body>
+{% if not proteinsequence %}
+        <fieldset>
+        <form action="/Protein" enctype="multipart/form-data" method="post">
+
+    <div class="jumbotron">
+      <h1>Select Text File containing Amino Acid sequences:</h1>
+      <input type="file" name="proteinfile">
+      </div>
+
+    <div class="jumbotron">
+        <h1>Alternatively, you can copy and paste Amino Acid sequences into the Text Area below:</h1>
+      <textArea placeholder="Enter Protein sequence here (e.g. M)" name="proteintext"></textArea>
+  </div>
+
+  <div class="jumbotron">
+        <h1>Select Amino Acid data to analyze</h1>
+    <div>
+        <div>
+  <input type="checkbox" name="sequencecounts" value="1">
+<label>Amino Acid Sequences</label>
+</div>
+
+      <input type="checkbox" name="counts" value="1">
+    <label>Amino Acid Count</label>
+</div>
+<div>
+  <input type="checkbox" name="percentages" value="1">
+<label>Amino Acid Percentages</label>
+</div>
+</div>
+
+<div class="jumbotron">
+      <h1>Display Amino Acid sequence into other styles</h1>
+      <div>
+    <input type="checkbox" name="splitsequence" value="1">
+  <label>Seperate sequences into different text boxes</label>
+</div>
+  <div>
+    <input type="checkbox" name="triple" value="1">
+  <label>Triple-Lettered (e.g. MET)</label>
+</div>
+<div>
+  <input type="checkbox" name="full" value="1">
+<label>Full name (e.g. Methionine)</label>
+</div>
+</div>
+
+
+<div class="jumbotron">
+<div>
+      <h1>Analyze Amino Acid characteristics</h1>
+    <input type="checkbox" name="polar" value="1">
+    <label>Polar groups</label>
+  </div>
+  <div>
+      <input type="checkbox" name="nonpolar" value="1">
+      <label>Nonpolar groups</label>
+    </div>
+    <div>
+        <input type="checkbox" name="aromatic" value="1">
+        <label>Aromatic groups</label>
+      </div>
+      <div>
+          <input type="checkbox" name="positive" value="1">
+          <label>Negatively-charged groups (at pH 7)</label>
+        </div>
+        <div>
+            <input type="checkbox" name="negative" value="1">
+            <label>Positively-charged groups (at pH 7)</label>
+          </div>
+          <div>
+              <input type="checkbox" name="nonstandard" value="1">
+              <label>Nonstandard structural R groups (Glycine and Proline)</label>
+            </div>
+            <div>
+                <input type="checkbox" name="disulfide" value="1">
+                <label>Disulfide bridges (Cysteine)</label>
+              </div>
+</div>
+
+
+<div class="jumbotron">
+      <h1>Search for positions of amino acid motifs</h1>
+    <input type="text" name="motifs" placeholder="Type in nucleotide sequence of interest">
+</div>
+
+
+<div class="jumbotron">
+    <h1>Make sure all the Protein data you want has been checked</h1>
+<button type = "submit">Analyze Protein data</button>
+</div>
+  </fieldset>
+  {% endif %}
+
+  {% if proteinsequence %}
+  <div class="jumbotron">
+          <h1>Your protein sequence:</h1>
+        <textArea name="proteintext">{{ proteinsequence }}</textArea>
+  </div>
+  {% endif %}
+
+{% if sequencecount %}
+<div class="jumbotron">
+  <table class="table table-striped" style="width:100%">
+ <thead>
+     <tr>
+         <th>Total amino acid sequences: </th>
+         <th>{{ protein.count }}</th>
+     </tr>
+ </thead>
+</table>
+</div>
+{% endif %}
+
+{% if counts %}
+<div class="jumbotron">
+  <table class="table table-striped" style="width:100%">
+ <thead>
+     <tr>
+         <th>Amino Acid</th>
+         <th>Counts</th>
+     </tr>
+ </thead>
+ <tbody>
+    <tr>
+         <td>Alanine Count</td>
+         <td>{{ protein.A }}</td>
+    </tr>
+    <tr>
+        <td>Leucine Count</th>
+        <td>{{ protein.L }}</td>
+    </tr>
+    <tr>
+        <td>Isoleucine Count</td>
+        <td>{{ protein.I }}</td>
+    </tr>
+   <tr>
+        <td>Valine Count</td>
+        <td>{{ protein.V }}</td>
+   </tr>
+   <tr>
+        <td>Methionine Count</td>
+        <td>{{ protein.M }}</td>
+   </tr>
+   <tr>
+        <td>Cysteine Count</td>
+        <td>{{ protein.C }}</td>
+   </tr>
+   <tr>
+        <td>Serine Count</td>
+        <td>{{ protein.S }}</td>
+   </tr>
+   <tr>
+        <td>Asparagine Count</td>
+        <td>{{ protein.N }}</td>
+   </tr>
+   <tr>
+        <td>Threonine Count</td>
+        <td>{{ protein.T }}</td>
+   </tr>
+   <tr>
+        <td>Glutamine Count</td>
+        <td>{{ protein.Q }}</td>
+   </tr>
+   <tr>
+        <td>Aspartate Count</td>
+        <td>{{ protein.D }}</td>
+   </tr>
+   <tr>
+        <td>Glutamate Count</td>
+        <td>{{ protein.E }}</td>
+   </tr>
+   <tr>
+       <td>Glycine Count</td>
+       <td>{{ protein.G }}</td>
+  </tr>
+  <tr>
+      <td>Proline Count</td>
+      <td>{{ protein.P }}</td>
+ </tr>
+ <tr>
+     <td>Phenylalanine Count</td>
+     <td>{{ protein.F }}</td>
+</tr>
+<tr>
+    <td>Tyrosine Count</td>
+    <td>{{ protein.Y }}</td>
+</tr>
+<tr>
+    <td>Tryptophan Count</td>
+    <td>{{ protein.W }}</td>
+</tr>
+<tr>
+    <td>Histidine Count</td>
+    <td>{{ protein.H }}</td>
+</tr>
+<tr>
+    <td>Arginine Count</td>
+    <td>{{ protein.R }}</td>
+</tr>
+<tr>
+    <td>Lysine Count</td>
+    <td>{{ protein.K }}</td>
+</tr>
+  <tr>
+        <th>TOTAL</th>
+        <th>{{ protein.total }}</th>
+</tr>
+</tbody>
+</table>
+</div>
+{% endif %}
+
+{% if percentages %}
+<div class="jumbotron">
+  <table class="table table-striped" style="width:100%">
+ <thead>
+     <tr>
+         <th>Amino Acid</th>
+         <th>Percentages</th>
+     </tr>
+ </thead>
+ <tbody>
+    <tr>
+         <td>Alanine Percentages</td>
+         <td>{{ protein.A * 100.0 / protein.total}}</td>
+    </tr>
+    <tr>
+        <td>Leucine Percentages</td>
+        <td>{{ protein.L * 100.0 / protein.total}}</td>
+    </tr>
+    <tr>
+        <td>Isoleucine Percentages</td>
+        <td>{{ protein.I * 100.0 / protein.total}}</td>
+    </tr>
+   <tr>
+        <td>Valine Percentages</td>
+        <td>{{ protein.V * 100.0 / protein.total}}</td>
+   </tr>
+   <tr>
+        <td>Methionine Percentages</td>
+        <td>{{ protein.M * 100.0 / protein.total}}</td>
+   </tr>
+   <tr>
+        <td>Cysteine Percentages</td>
+        <td>{{ protein.C * 100.0 / protein.total}}</td>
+   </tr>
+   <tr>
+        <td>Serine Percentages</td>
+        <td>{{ protein.S * 100.0 / protein.total}}</td>
+   </tr>
+   <tr>
+        <td>Asparagine Percentages</td>
+        <td>{{ protein.N * 100.0 / protein.total}}</td>
+   </tr>
+   <tr>
+        <td>Threonine Percentages</td>
+        <td>{{ protein.T * 100.0 / protein.total}}</td>
+   </tr>
+   <tr>
+        <td>Glutamine Percentages</td>
+        <td>{{ protein.Q * 100.0 / protein.total}}</td>
+   </tr>
+   <tr>
+        <td>Aspartate Percentages</td>
+        <td>{{ protein.D * 100.0 / protein.total}}</td>
+   </tr>
+   <tr>
+        <td>Glutamate Percentages</td>
+        <td>{{ protein.E * 100.0 / protein.total}}</td>
+   </tr>
+   <tr>
+       <td>Glycine Percentages</td>
+       <td>{{ protein.G * 100.0 / protein.total}}</td>
+  </tr>
+  <tr>
+      <td>Proline Percentages</td>
+      <td>{{ protein.P * 100.0 / protein.total}}</td>
+ </tr>
+ <tr>
+     <td>Phenylalanine Percentages</td>
+     <td>{{ protein.F * 100.0 / protein.total}}</td>
+</tr>
+<tr>
+    <td>Tyrosine Percentages</td>
+    <td>{{ protein.Y * 100.0 / protein.total}}</td>
+</tr>
+<tr>
+    <td>Tryptophan Percentages</td>
+    <td>{{ protein.W * 100.0 / protein.total}}</td>
+</tr>
+<tr>
+    <td>Histidine Percentages</td>
+    <td>{{ protein.H * 100.0 / protein.total}}</td>
+</tr>
+<tr>
+    <td>Arginine Percentages</td>
+    <td>{{ protein.R * 100.0 / protein.total}}</td>
+</tr>
+<tr>
+    <td>Lysine Percentages</td>
+    <td>{{ protein.K * 100.0 / protein.total}}</td>
+</tr>
+
+</tbody>
+</table>
+</div>
+{% endif %}
+
+{% if splitsequence %}
+<div class="jumbotron">
+        <h1>Your protein sequence with amino acid strands seperated:</h1>
+     {% for ssequence in splitsequence %}
+         <p>Sequence {{ ssequence.position }}</p>
+        <textArea id='{{ ssequence.position }}'>{{ ssequence.sequence }}</textArea>
+             <button onclick="copysequence('{{ ssequence.position }}')">Copy Specific Sequence {{ ssequence.position }}</button>
+     {% endfor %}
+</div>
+{% endif %}
+
+{% if tripleprotein %}
+<div class="jumbotron">
+        <h1>Your protein sequence with triple-lettered amino acids:</h1>
+      <textArea name="DNAtext">{{ tripleprotein }}</textArea>
+</div>
+{% endif %}
+
+{% if fullprotein %}
+<div class="jumbotron">
+        <h1>Your protein sequence with complete amino acids names:</h1>
+      <textArea name="DNAtext">{{ fullprotein }}</textArea>
+</div>
+{% endif %}
+
+{% if polar %}
+<div class="jumbotron">
+    <h1> Polar Groups </h1>
+<table class="table table-striped" style="width:100%">
+<thead>
+<tr>
+    <th>Amino Acid</th>
+    <th>Position in Amino Acid Sequence</th>
+
+</tr>
+</thead>
+<tbody>
+{% for aminoacid in aminoacids %}
+{% if aminoacid.aa_characteristic == 'polar' %}
+<tr>
+    <td>{{ aminoacid.aa_fullname }} [{{ aminoacid.aa_tripleletter }}] ({{ aminoacid.aa_letter }})</td>
+    <td>{{ aminoacid.aa_position }}</td>
+</tr>
+{% endif %}
+{% endfor %}
+</tbody>
+</table>
+</div>
+{% endif %}
+
+{% if nonpolar %}
+<div class="jumbotron">
+    <h1> Nonpolar Groups </h1>
+<table class="table table-striped" style="width:100%">
+<thead>
+<tr>
+    <th>Amino Acid</th>
+    <th>Position in Amino Acid Sequence</th>
+
+</tr>
+</thead>
+<tbody>
+{% for aminoacid in aminoacids %}
+{% if aminoacid.aa_characteristic == 'nonpolar' %}
+<tr>
+    <td>{{ aminoacid.aa_fullname }} [{{ aminoacid.aa_tripleletter }}] ({{ aminoacid.aa_letter }})</td>
+    <td>{{ aminoacid.aa_position }}</td>
+</tr>
+{% endif %}
+{% endfor %}
+</tbody>
+</table>
+</div>
+{% endif %}
+
+{% if aromatic %}
+<div class="jumbotron">
+    <h1> Aromatic Groups </h1>
+<table class="table table-striped" style="width:100%">
+<thead>
+<tr>
+    <th>Amino Acid</th>
+    <th>Position in Amino Acid Sequence</th>
+
+</tr>
+</thead>
+<tbody>
+{% for aminoacid in aminoacids %}
+{% if aminoacid.aa_characteristic == 'aromatic' %}
+<tr>
+    <td>{{ aminoacid.aa_fullname }} [{{ aminoacid.aa_tripleletter }}] ({{ aminoacid.aa_letter }})</td>
+    <td>{{ aminoacid.aa_position }}</td>
+</tr>
+{% endif %}
+{% endfor %}
+</tbody>
+</table>
+</div>
+{% endif %}
+
+{% if negative %}
+<div class="jumbotron">
+    <h1> Negatively-charged Groups (at pH 7) </h1>
+<table class="table table-striped" style="width:100%">
+<thead>
+<tr>
+    <th>Amino Acid</th>
+    <th>Position in Amino Acid Sequence</th>
+
+</tr>
+</thead>
+<tbody>
+{% for aminoacid in aminoacids %}
+{% if aminoacid.aa_characteristic == 'negative' %}
+<tr>
+    <td>{{ aminoacid.aa_fullname }} [{{ aminoacid.aa_tripleletter }}] ({{ aminoacid.aa_letter }})</td>
+    <td>{{ aminoacid.aa_position }}</td>
+</tr>
+{% endif %}
+{% endfor %}
+</tbody>
+</table>
+</div>
+{% endif %}
+
+{% if positive %}
+<div class="jumbotron">
+    <h1> Positively-charged Groups </h1>
+<table class="table table-striped" style="width:100%">
+<thead>
+<tr>
+    <th>Amino Acid</th>
+    <th>Position in Amino Acid Sequence</th>
+
+</tr>
+</thead>
+<tbody>
+{% for aminoacid in aminoacids %}
+{% if aminoacid.aa_characteristic == 'positive' %}
+<tr>
+    <td>{{ aminoacid.aa_fullname }} [{{ aminoacid.aa_tripleletter }}] ({{ aminoacid.aa_letter }})</td>
+    <td>{{ aminoacid.aa_position }}</td>
+</tr>
+{% endif %}
+{% endfor %}
+</tbody>
+</table>
+</div>
+{% endif %}
+
+{% if nonstandard %}
+<div class="jumbotron">
+    <h1> Nonstandard structural R groups (Glycine and Proline) </h1>
+<table class="table table-striped" style="width:100%">
+<thead>
+<tr>
+    <th>Amino Acid</th>
+    <th>Position in Amino Acid Sequence</th>
+
+</tr>
+</thead>
+<tbody>
+{% for aminoacid in aminoacids %}
+{% if aminoacid.aa_characteristic == 'nonstandard' %}
+<tr>
+    <td>{{ aminoacid.aa_fullname }} [{{ aminoacid.aa_tripleletter }}] ({{ aminoacid.aa_letter }})</td>
+    <td>{{ aminoacid.aa_position }}</td>
+</tr>
+{% endif %}
+{% endfor %}
+</tbody>
+</table>
+</div>
+{% endif %}
+
+{% if disulfide %}
+<div class="jumbotron">
+    <h1>Disulfide bridges (Cysteine)</h1>
+<table class="table table-striped" style="width:100%">
+<thead>
+<tr>
+    <th>Amino Acid</th>
+    <th>Position in Amino Acid Sequence</th>
+
+</tr>
+</thead>
+<tbody>
+{% for aminoacid in aminoacids %}
+{% if aminoacid.aa_characteristic == 'disulfide' %}
+<tr>
+    <td>{{ aminoacid.aa_fullname }} [{{ aminoacid.aa_tripleletter }}] ({{ aminoacid.aa_letter }})</td>
+    <td>{{ aminoacid.aa_position }}</td>
+</tr>
+{% endif %}
+{% endfor %}
+</tbody>
+</table>
+</div>
+{% endif %}
+
+{% if motifsequence %}
+<div class="jumbotron">
+<table class="table table-striped" style="width:100%">
+<thead>
+<tr>
+    <th>Your amino acid sequence of interest: </th>
+    <th>{{ motifsequence }}</th>
+</tr>
+<tr>
+    <th>TOTAL motif occurences: </th>
+    <th>{{ motifs|length }}</th>
+</tr>
+{% if motifs|length > 0 %}
+<tr>
+    <th>Positions of motif occurences: </th>
+</tr>
+{% endif %}
+</thead>
+<tbody>
+{% for index in motifs %}
+<tr>
+    <td>Occurence {{ index.count }}</td>
+    <td>{{ index.indices }}</td>
+</tr>
+{% endfor %}
+</tbody>
+</table>
+</div>
+{% endif %}
+<script>
+function copysequence(string) {
+  var copyText = document.getElementById(string);
+  copyText.select();
+  document.execCommand("Copy");
+  alert("Copied sequence " + string + " of the protein");
+}
+</script>
+
+    </body>
+{% endblock %}

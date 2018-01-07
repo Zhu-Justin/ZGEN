@@ -1,0 +1,63 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    FASTA
+{% endblock %}
+
+{% block main %}
+    <body>
+{% if not data %}
+        <fieldset>
+        <form action="/FASTA" enctype="multipart/form-data" method="post">
+
+    <div class="jumbotron">
+      <h1>Select FASTA File to parse:</h1>
+      <input type="file" name="fastafile">
+      </div>
+
+<div class="jumbotron">
+    <h1>Make sure FASTA file is uploaded</h1>
+<button type = "submit">Parse FASTA file</button>
+</div>
+  </fieldset>
+  {% endif %}
+
+  {% if not fasta and data %}
+
+  <div class="jumbotron">
+      <p>It appears that your FASTA file did not have any data.</p>
+  <p>Please verify contents and click on "ZGEN" if you have questions about a FASTA file</p>
+  </div>
+    </fieldset>
+    {% endif %}
+
+  {% if fasta %}
+  <h1>Your FASTA file data:</h1>
+  {% for fastadata in fasta %}
+  <div class="jumbotron">
+         <h1>Sequence {{ fastadata.index }}:</h1>
+         <table class="table table-striped" style="width:100%">
+         <thead>
+         <tr>
+             <th>{{ fastadata.fasta_identifier }}</th>
+         </tr>
+         </thead>
+         </table>
+         <textArea id='{{ fastadata.fasta_identifier }}'>{{ fastadata.fasta_sequence }}</textArea>
+         <button onclick="copy('{{ fastadata.fasta_identifier }}')">Copy Sequence</button>
+  </div>
+<script>
+function copy(string) {
+  var copyText = document.getElementById(string);
+  copyText.select();
+  document.execCommand("Copy");
+  alert("Copied the sequence for " + string);
+}
+</script>
+  {% endfor %}
+  {% endif %}
+
+
+
+    </body>
+{% endblock %}

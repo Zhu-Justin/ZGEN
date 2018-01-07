@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+    <head>
+
+        <!-- Required meta tags -->
+        <meta charset="utf-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+        <!--Links and description -->
+        <meta name="description" content=" A free, centralized bioinformatics tool">
+        <meta name="author" content="Justin Zhu">
+        <!-- documentation at http://getbootstrap.com/docs/4.0/, alternative themes at https://bootswatch.com/4-alpha/ -->
+        <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" rel="stylesheet"/>
+
+        <link href="/static/styles.css" rel="stylesheet"/>
+
+        <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js"></script>
+        <!-- icon links -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <title>ZGEN {% block title %}{% endblock %}</title>
+
+    </head>
+
+    <body>
+        <div id="wrapper" class="active">
+        <nav class="navbar navbar-expand-md navbar-light bg-light border">
+            <a class="navbar-brand" href="/welcome"><span class="blue">ZGEN</span></a>
+            <ul class="navbar-nav ml-auto mt-2">
+            <li class="nav-item">
+                <a class="nav-link" href="/"><i class="fa fa-home fa-3x"></i></a>
+            </li>
+            </ul>
+        </nav>
+        <!--Sidebar -->
+      <div id="sidebar-wrapper">
+      <ul id="sidebar_menu" class="sidebar-nav">
+           <li class="sidebar-brand"><a id="menu-toggle" href="#">Tools
+               &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&#9776;
+           </a></li>
+      </ul>
+        <ul class="sidebar-nav" id="sidebar">
+            <li class="sidebar-nav"><a class = "nav-link" href="/DNA">DNA</a></li>
+            <li class="sidebar-nav"><a class = "nav-link" href="/RNA">RNA</a></li>
+            <li class="sidebar-nav"><a class = "nav-link" href="/Protein">Protein</a></li>
+            <li class="sidebar-brand"><a class = "nav-link" href="/FASTA">FASTA</a></li>
+
+        </ul>
+      </div>
+        <script>
+        $("#menu-toggle").click(function(e) {
+        e.preventDefault();
+        $("#wrapper").toggleClass("active");
+        });
+        </script>
+    </div>
+
+
+        <main class="container p-5">
+            {% block main %}{% endblock %}
+        </main>
+
+    </body>
+
+</html>

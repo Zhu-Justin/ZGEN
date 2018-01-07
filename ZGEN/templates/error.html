@@ -1,0 +1,16 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Error
+{% endblock %}
+
+{% block main %}
+<div class="col">
+       <div class="jumbotron">
+           <h1 class="display-3">{{ error.code }}</h1>
+            <p class="lead" style="text-align:center">{{ error.name }}</p>
+           <hr class="my-4"/>
+           <center><p style="text-align:center">{{ error.description }}</p>
+       </div>
+   </div>
+{% endblock %}
